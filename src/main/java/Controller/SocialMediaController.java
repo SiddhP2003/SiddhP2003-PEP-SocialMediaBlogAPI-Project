@@ -45,16 +45,21 @@ public class SocialMediaController {
         Account account = mapper.readValue(ctx.body(), Account.class);
         String username = account.getUsername();
         String password = account.getPassword();
-        if (username == null || username.length() <= 0 || password.length() <= 4) {
+        if (username == null || username.length() <= 0 || password.length() < 4) {
             ctx.status(400);
         }
         else {
-            Account addedAccount = accountService.register(account);
-            if (addedAccount != null){
-                ctx.json(mapper.writeValueAsString(addedAccount));
+            if (accountService.getAccountByUsername(username) != null) {
+                ctx.status(409);
             }
-            else {
-                ctx.status(40);
+            else{
+                Account addedAccount = accountService.register(account);
+                if (addedAccount != null){
+                    ctx.json(addedAccount);
+                }
+                else {
+                ctx.status(400);
+                }
             }
         }
     }
