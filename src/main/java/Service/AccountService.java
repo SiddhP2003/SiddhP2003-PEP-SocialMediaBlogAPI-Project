@@ -17,7 +17,10 @@ public class AccountService {
   // }
 
   public Account register(Account account){
-    return accountDAO.register(account);
+    if (accountDAO.getAccountByUsername(account.getUsername()) == null){
+      return accountDAO.register(account);
+    }
+    return null;
   }
 
 
