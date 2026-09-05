@@ -24,7 +24,6 @@ public class SocialMediaController {
         Javalin app = Javalin.create();
         //app.get("example-endpoint", this::exampleHandler);
         app.get("/register", this::registerHandler);
-        app.start(8080);
         return app;
     }
 
