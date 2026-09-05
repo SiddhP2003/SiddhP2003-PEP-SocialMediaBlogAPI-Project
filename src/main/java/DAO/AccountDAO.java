@@ -4,19 +4,10 @@ import Util.ConnectionUtil;
 import java.sql.*;
 import Model.Account;
 
-class AccountDAO {
+public class AccountDAO {
   public Connection db = ConnectionUtil.getConnection();
 
-  private static AccountDAO accountDAO = null;
-
-  static AccountDAO getInstance(){
-    if (accountDAO == null){
-      accountDAO = new AccountDAO();
-    }
-    return accountDAO;
-  }
-
-  Account register(Account newAccount) {
+  public Account register(Account newAccount) {
     try {
       String sql = "INSERT INTO account (username, password) VALUES (?,?)";
 
