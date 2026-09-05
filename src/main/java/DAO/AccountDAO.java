@@ -22,6 +22,11 @@ public class AccountDAO {
         throw new SQLException("Member was not entered into the database.");
       }
       
+      ResultSet rs = ps.getGeneratedKeys();
+      if (rs.next()){
+        int generatedKey = rs.getInt(1);
+        newAccount.setAccount_id(rs.getInt(generatedKey));
+      }
       return newAccount;
 
     } catch (SQLException e){
