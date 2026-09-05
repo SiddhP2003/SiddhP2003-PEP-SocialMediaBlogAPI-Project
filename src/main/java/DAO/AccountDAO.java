@@ -25,7 +25,7 @@ public class AccountDAO {
       ResultSet rs = ps.getGeneratedKeys();
       if (rs.next()){
         int generatedKey = rs.getInt(1);
-        newAccount.setAccount_id(rs.getInt(generatedKey));
+        newAccount.setAccount_id(generatedKey);
       }
       return newAccount;
 
