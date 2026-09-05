@@ -15,6 +15,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class SocialMediaController {
     AccountService accountService;
+
+
+    public SocialMediaController(){
+        accountService = new AccountService();
+    }
     /**
      * In order for the test cases to work, you will need to write the endpoints in the startAPI() method, as the test
      * suite must receive a Javalin object from this method.
@@ -37,13 +42,13 @@ public class SocialMediaController {
 
     private void registerHandler(Context ctx) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
-        String username = ctx.pathParam("username");
-        String password = ctx.pathParam("password");
+        Account account = mapper.readValue(ctx.body(), Account.class);
+        String username = account.getUsername();
+        String password = account.getPassword();
         if (username == null || username.length() <= 0 || password.length() <= 4) {
             ctx.status(409);
         }
         else {
-            Account account = mapper.readValue(ctx.body(), Account.class);
             Account addedAccount = accountService.register(account);
             if (addedAccount != null){
                 ctx.json(mapper.writeValueAsString(addedAccount));
