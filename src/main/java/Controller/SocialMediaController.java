@@ -50,7 +50,8 @@ public class SocialMediaController {
         }
         else {
             if (accountService.getAccountByUsername(username) != null) {
-                ctx.status(409);
+                //ctx.status(409);
+                ctx.status(400);
             }
             else{
                 Account addedAccount = accountService.register(account);
