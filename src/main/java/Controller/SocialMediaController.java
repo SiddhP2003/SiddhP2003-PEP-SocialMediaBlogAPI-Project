@@ -46,7 +46,7 @@ public class SocialMediaController {
         String username = account.getUsername();
         String password = account.getPassword();
         if (username == null || username.length() <= 0 || password.length() <= 4) {
-            ctx.status(409);
+            ctx.status(400);
         }
         else {
             Account addedAccount = accountService.register(account);
@@ -54,7 +54,7 @@ public class SocialMediaController {
                 ctx.json(mapper.writeValueAsString(addedAccount));
             }
             else {
-                ctx.status(400);
+                ctx.status(409);
             }
         }
     }
