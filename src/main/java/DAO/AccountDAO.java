@@ -37,7 +37,7 @@ public class AccountDAO {
   }
 
   public Account getAccountByUsername(String username){
-    Connection db = ConnectionUtil.getConnection();
+    //Connection db = ConnectionUtil.getConnection();
 
     try {
       String sql = "SELECT * FROM account WHERE username = ?";
@@ -54,4 +54,16 @@ public class AccountDAO {
     }
     return null;
   }
+
+  public Account login(Account account){
+    Account checkedAccount = getAccountByUsername(account.getUsername());
+    if(getAccountByUsername(account.getUsername()) != null && account.getPassword().equals(checkedAccount.getPassword())){
+        return checkedAccount;
+    }
+    else{
+      return null;
+    }
+  }
+
+
 }

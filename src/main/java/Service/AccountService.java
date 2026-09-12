@@ -27,5 +27,14 @@ public class AccountService {
     return accountDAO.getAccountByUsername(username);
   }
 
+  public Account login(Account account){
+    Account validAccount = accountDAO.login(account);
+
+    if(validAccount != null){
+      return validAccount;
+    }
+    return null;
+  }
+
 
 }
