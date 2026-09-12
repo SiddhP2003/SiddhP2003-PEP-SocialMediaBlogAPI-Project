@@ -3,7 +3,10 @@ package Controller;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 import Model.Account;
+import Model.Message;
+import java.util.*;
 import Service.AccountService;
+import Service.MessageService;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,6 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class SocialMediaController {
     AccountService accountService;
+    MessageService messageService;
 
 
     public SocialMediaController(){
@@ -30,6 +34,7 @@ public class SocialMediaController {
         //app.get("example-endpoint", this::exampleHandler);
         app.post("/register", this::registerHandler);
         app.post("/login", this::loginHandler);
+        app.get("/messages", this::getAllMessagesHandler);
         return app;
     }
 
@@ -76,6 +81,15 @@ public class SocialMediaController {
         else{
             ctx.json(validAccount);
         }
+    }
+
+    private void getAllMessagesHandler(Context ctx) throws JsonProcessingException {
+        ArrayList<Message> messages = messageService.getAllMessages();
+        ctx.json(messages);
+    }
+
+    private void getMessageHandler(Context ctx) throws JsonProcessingException {
+        
     }
 
 }
