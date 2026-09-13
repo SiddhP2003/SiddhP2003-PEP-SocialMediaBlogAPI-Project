@@ -14,7 +14,7 @@ public class MessageService {
   }
 
   public Message createMessage(Message message){
-    if (messageDAO.getAccountByPostedBy(message.getPosted_by()) == null){
+    if (messageDAO.getAccountByPostedBy(message.getPosted_by()) != null){
       return messageDAO.createMessage(message);
     }
     return null;
