@@ -2,6 +2,7 @@ package Controller;
 
 import io.javalin.Javalin;
 import io.javalin.http.Context;
+import netscape.javascript.JSException;
 import Model.Account;
 import Model.Message;
 import java.util.*;
@@ -39,6 +40,7 @@ public class SocialMediaController {
         app.post("/messages", this::createMessageHandler);
         app.get("/messages", this::getAllMessagesHandler);
         app.get("/messages/{message_id}", this::getMessageHandler);
+        app.delete("/messages/{message_id}", this::deleteMessageHandler);
 
         return app;
     }
@@ -130,6 +132,15 @@ public class SocialMediaController {
         else{
             ctx.json(Collections.emptyMap());
         }
+    }
+
+    public void deleteMessageHandler(Context ctx) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        Integer message_id = mapper.readValue(ctx.body(), Integer.class);
+        int updated = messageService.deleteMessage(message_id);
+
+        ctx.json(Map.of("updated", updated)); 
+
     }
 
 }
