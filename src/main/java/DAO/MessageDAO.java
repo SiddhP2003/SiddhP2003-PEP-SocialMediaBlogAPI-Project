@@ -8,7 +8,7 @@ import java.util.*;
 
 public class MessageDAO {
   public Connection db = ConnectionUtil.getConnection();
-  public ArrayList<Message> messages = new ArrayList<Message>();
+ // public ArrayList<Message> messages = new ArrayList<Message>();
 
 
   public Message createMessage(Message newMessage){
@@ -61,6 +61,7 @@ public class MessageDAO {
 
 
   public ArrayList<Message> getAllMessages(){
+    ArrayList<Message> messages = new ArrayList<Message>();
     try {
       String sql = "SELECT * FROM message";
       PreparedStatement ps = db.prepareStatement(sql);
@@ -133,6 +134,27 @@ public class MessageDAO {
       e.printStackTrace();
     }
     return 0;
+  }
+
+  public ArrayList<Message> getAllMessagesFromAccount(int account_id){
+    ArrayList<Message> messages = new ArrayList<Message>();
+    try{
+      String sql = "SELECT * FROM message WHERE posted_by = ?";
+      PreparedStatement ps = db.prepareStatement(sql);
+
+      ps.setInt(1, account_id);
+
+      ResultSet rs = ps.executeQuery();
+      while(rs.next()){
+        Message message = new Message(rs.getInt("message_id"), rs.getInt("posted_by"), rs.getString("message_text"), rs.getLong("time_posted_epoch"));
+        messages.add(message);
+      }
+      return messages;
+      
+    } catch(SQLException e){
+      e.printStackTrace();
+    }
+    return messages;
   }
 
 }
