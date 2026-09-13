@@ -122,15 +122,11 @@ public class SocialMediaController {
         ctx.json(messages);
     }
 
-    private void getMessageHandler(Context ctx) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        Integer message_id = mapper.readValue(ctx.body(), Integer.class);
-        Message message = messageService.getMessage(message_id.intValue());
+    private void getMessageHandler(Context ctx){
+        int message_id = Integer.parseInt(ctx.pathParam("message_id"));
+        Message message = messageService.getMessage(message_id);
         if(message != null){
             ctx.json(message);
-        }
-        else{
-            ctx.json(Collections.emptyMap());
         }
     }
 
