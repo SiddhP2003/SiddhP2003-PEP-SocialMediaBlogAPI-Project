@@ -107,16 +107,12 @@ public class MessageDAO {
 
   public int deleteMessage(int message_id){
     try {
-      String sql = "DELETE * FROM message WHERE message_id = ?";
+      String sql = "DELETE FROM message WHERE message_id = ?";
       PreparedStatement ps = db.prepareStatement(sql);
 
       ps.setInt(1, message_id);
 
       int checkUpdate = ps.executeUpdate();
-
-      if(checkUpdate == 0){
-        throw new SQLException("Member was not entered into the database.");
-      }
 
       return checkUpdate;
 
