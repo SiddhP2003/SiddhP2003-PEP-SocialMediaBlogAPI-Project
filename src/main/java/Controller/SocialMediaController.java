@@ -23,6 +23,7 @@ public class SocialMediaController {
 
     public SocialMediaController(){
         accountService = new AccountService();
+        messageService = new MessageService();
     }
     /**
      * In order for the test cases to work, you will need to write the endpoints in the startAPI() method, as the test
@@ -34,8 +35,11 @@ public class SocialMediaController {
         //app.get("example-endpoint", this::exampleHandler);
         app.post("/register", this::registerHandler);
         app.post("/login", this::loginHandler);
+        
+        app.post("/messages", this::createMessageHandler);
         app.get("/messages", this::getAllMessagesHandler);
         app.get("/messages/{message_id}", this::getMessageHandler);
+
         return app;
     }
 
@@ -82,6 +86,33 @@ public class SocialMediaController {
         else{
             ctx.json(validAccount);
         }
+    }
+
+    private void createMessageHandler(Context ctx) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        Message message = mapper.readValue(ctx.body(), Message.class);
+        int posted_by = message.getPosted_by();
+        String message_text = message.getMessage_text();
+
+        if(message_text != null && message_text.length() > 0 && message_text.length() < 255){
+            ctx.status(400);
+        }
+        else{
+            if(messageService.getAccountByPostedBy(posted_by) == null) {
+                ctx.status(400);
+            }
+            else{
+                Message addedMessage = messageService.createMessage(message);
+                if (addedMessage != null){
+                    ctx.json(addedMessage);
+                }
+                else {
+                ctx.status(400);
+                }
+            }
+        }
+
+
     }
 
     private void getAllMessagesHandler(Context ctx) throws JsonProcessingException {
