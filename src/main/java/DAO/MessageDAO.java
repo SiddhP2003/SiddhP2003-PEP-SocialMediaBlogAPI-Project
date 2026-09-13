@@ -20,8 +20,6 @@ public class MessageDAO {
       ps.setString(2, newMessage.getMessage_text());
       ps.setLong(3, newMessage.getTime_posted_epoch());
 
-      ps.executeQuery();
-
       int checkInsert = ps.executeUpdate();
 
       if (checkInsert == 0) {
@@ -51,7 +49,7 @@ public class MessageDAO {
       preparedStatement.setInt(1, postedBy);
 
       ResultSet rs = preparedStatement.executeQuery();
-      while(rs.next()){
+      if(rs.next()){
         Account account = new Account(rs.getInt("account_id"), rs.getString("username"), rs.getString("password"));
         return account;
       }

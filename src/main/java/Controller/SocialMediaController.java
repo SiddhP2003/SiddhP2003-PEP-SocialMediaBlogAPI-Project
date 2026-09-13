@@ -96,7 +96,7 @@ public class SocialMediaController {
         int posted_by = message.getPosted_by();
         String message_text = message.getMessage_text();
 
-        if(message_text != null && message_text.length() > 0 && message_text.length() < 255){
+        if(message_text == null && message_text.length() <= 0 && message_text.length() >= 255){
             ctx.status(400);
         }
         else{
