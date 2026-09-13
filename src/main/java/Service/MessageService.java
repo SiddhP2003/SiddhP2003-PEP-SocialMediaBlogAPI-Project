@@ -36,4 +36,8 @@ public class MessageService {
     return messageDAO.deleteMessage(message_id);
   }
 
+  public int updateMessage(int message_id, String message_text){
+    return messageDAO.updateMessage(message_id, message_text);
+  }
+
 }

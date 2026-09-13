@@ -118,4 +118,21 @@ public class MessageDAO {
     return 0;
   }
 
+  public int updateMessage(int message_id, String message_text){
+    try {
+      String sql = "UPDATE message SET message_text = ? WHERE message_id = ?";
+      PreparedStatement ps = db.prepareStatement(sql);
+
+      ps.setString(1, message_text);
+      ps.setInt(2, message_id);
+
+      int checkUpdate = ps.executeUpdate();
+
+      return checkUpdate;
+    } catch(SQLException e) {
+      e.printStackTrace();
+    }
+    return 0;
+  }
+
 }
